@@ -1,103 +1,141 @@
-/* RAGE X - GamePad Viewer Xbox One edit skin
-   Use as Edit CSS URL with the Xbox One skin.
+/* RAGE X v2 — GamePad Viewer Xbox One EDIT skin
+   Corrected against the Xbox One 750x630 coordinate system.
+   Keep GamePad Viewer Skin = Xbox One.
 */
 
 .controller.xbox.edit {
-  background-image: url("https://penay4321-cloud.github.io/ragex-gamepad/ragex-base.png") !important;
-  background-repeat: no-repeat !important;
-  background-position: center 55px !important;
-  background-size: 750px 500px !important;
   width: 750px !important;
   height: 630px !important;
   position: relative !important;
+
+  /* Generated artwork is 1536x1024 (3:2).
+     Scale to 750px wide => 500px high.
+     Place it in the lower 500px of the native 630px Xbox canvas,
+     leaving the native trigger zone above it. */
+  background-image: url("https://penay4321-cloud.github.io/ragex-gamepad/ragex-base.png") !important;
+  background-repeat: no-repeat !important;
+  background-size: 750px 500px !important;
+  background-position: center 130px !important;
 }
 
-/* Keep the interactive GamePad Viewer controls above the custom shell */
+/* Preserve the native Xbox One input geometry. */
+.xbox.edit .triggers {
+  left: 152px !important;
+  top: 0 !important;
+  width: 446px !important;
+  height: 121px !important;
+}
+.xbox.edit .bumpers {
+  left: 107px !important;
+  top: 129px !important;
+  width: 536px !important;
+  height: 61px !important;
+}
+.xbox.edit .quadrant {
+  left: 354px !important;
+  top: 258px !important;
+}
+.xbox.edit .arrows {
+  left: 306px !important;
+  top: 264px !important;
+}
+.xbox.edit .abxy {
+  left: 488px !important;
+  top: 192px !important;
+  width: 153px !important;
+  height: 156px !important;
+}
+.xbox.edit .sticks {
+  left: 144px !important;
+  top: 239px !important;
+  width: 371px !important;
+  height: 196px !important;
+}
+.xbox.edit .dpad {
+  left: 223px !important;
+  top: 345px !important;
+  width: 110px !important;
+  height: 111px !important;
+}
+
+/* Put every live input over the artwork. */
 .xbox.edit .triggers,
 .xbox.edit .bumpers,
+.xbox.edit .quadrant,
+.xbox.edit .arrows,
 .xbox.edit .abxy,
 .xbox.edit .sticks,
-.xbox.edit .dpad,
-.xbox.edit .arrows {
-  z-index: 10 !important;
+.xbox.edit .dpad {
+  z-index: 20 !important;
 }
 
-/* Dark ABXY treatment; pressed buttons light up red/white */
+/* Dark ABXY; active inputs flash red/white. */
 .xbox.edit .button {
-  filter: grayscale(1) brightness(.52) contrast(1.35);
+  filter: grayscale(1) brightness(.48) contrast(1.45);
   transition: filter .08s ease, transform .08s ease;
 }
 .xbox.edit .button.pressed {
-  filter: grayscale(1) brightness(1.45) sepia(1) saturate(7) hue-rotate(320deg)
-          drop-shadow(0 0 7px rgba(255,35,35,.95));
+  filter: grayscale(1) brightness(1.55) sepia(1) saturate(7)
+          hue-rotate(320deg) drop-shadow(0 0 8px rgba(255,30,30,.95));
 }
 
-/* Red accents on moving sticks */
+/* Stick accents. */
 .xbox.edit .stick {
   filter: grayscale(1) brightness(.72) contrast(1.35)
-          drop-shadow(0 0 3px rgba(255,0,0,.75));
+          drop-shadow(0 0 4px rgba(255,0,0,.8));
 }
 .xbox.edit .stick.pressed {
-  filter: grayscale(1) brightness(1.05) contrast(1.35)
-          drop-shadow(0 0 9px rgba(255,25,25,1));
+  filter: grayscale(1) brightness(1.12) contrast(1.4)
+          drop-shadow(0 0 10px rgba(255,25,25,1));
 }
 
-/* D-pad press glow */
-.xbox.edit .face.pressed {
-  filter: brightness(1.7) drop-shadow(0 0 8px rgba(255,30,30,.95));
-}
-
-/* Bumpers / triggers glow when active */
+.xbox.edit .face.pressed,
 .xbox.edit .bumper.pressed,
-.xbox.edit .trigger.pressed {
-  filter: brightness(1.35) drop-shadow(0 0 8px rgba(255,30,30,.95));
+.xbox.edit .trigger.pressed,
+.xbox.edit .back.pressed,
+.xbox.edit .start.pressed {
+  filter: brightness(1.55) drop-shadow(0 0 9px rgba(255,30,30,.95));
 }
 
-/* Animated RAGE X light sweep */
+/* Animated RAGE X light sweep.
+   Positioned in the upper-middle body area, clear of ABXY/sticks. */
 .controller.xbox.edit::after {
   content: "RAGE X";
   position: absolute;
-  z-index: 30;
+  z-index: 40;
   left: 50%;
-  top: 214px;
+  top: 202px;
   transform: translateX(-50%) skew(-8deg);
   pointer-events: none;
   white-space: nowrap;
-  font: 900 italic 48px/1 Arial Black, Impact, sans-serif;
+  font: 900 italic 42px/1 Arial Black, Impact, sans-serif;
   letter-spacing: -3px;
-  color: #f3f3f3;
+  color: #eee;
   text-shadow:
-    0 0 4px rgba(255,255,255,.95),
-    0 0 10px rgba(255,40,40,.95),
-    0 0 22px rgba(255,0,0,.75);
+    0 0 4px rgba(255,255,255,.9),
+    0 0 10px rgba(255,40,40,.9),
+    0 0 22px rgba(255,0,0,.7);
   animation: ragexGlow 2.4s ease-in-out infinite;
 }
 
 @keyframes ragexGlow {
-  0%, 100% {
-    color: #d7d7d7;
-    text-shadow:
-      -12px 0 4px rgba(255,255,255,.15),
-      0 0 8px rgba(255,0,0,.45),
-      0 0 15px rgba(255,0,0,.35);
+  0%,100% {
+    color:#d5d5d5;
+    text-shadow:-14px 0 4px rgba(255,255,255,.12),
+                0 0 8px rgba(255,0,0,.45),
+                0 0 16px rgba(255,0,0,.35);
   }
   45% {
-    color: #fff;
-    text-shadow:
-      0 0 5px #fff,
-      0 0 14px #ff2a2a,
-      0 0 30px #ff0000,
-      16px 0 16px rgba(255,255,255,.7);
+    color:#fff;
+    text-shadow:0 0 5px #fff,
+                0 0 14px #ff2a2a,
+                0 0 30px #f00,
+                18px 0 16px rgba(255,255,255,.72);
   }
   60% {
-    color: #ffefef;
-    text-shadow:
-      12px 0 5px #fff,
-      0 0 15px #ff1f1f,
-      0 0 32px #ff0000;
+    color:#fff0f0;
+    text-shadow:14px 0 5px #fff,
+                0 0 15px #ff1f1f,
+                0 0 32px #f00;
   }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .controller.xbox.edit::after { animation: none; }
 }
