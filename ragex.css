@@ -1,84 +1,100 @@
-/* RAGE X v3 — exact GamePad Viewer Xbox One coordinate overlay
-   IMPORTANT: this version DOES NOT replace the stock Xbox One base.
-   It keeps GamePad Viewer's native 750x630 controller and layers RAGE X over it.
+/* RAGE X v4 — SAFE EDIT CSS
+   Keeps GamePad Viewer's original Xbox One geometry.
+   No replacement controller image = no alignment drift.
 */
-.controller.xbox.edit {
-  width: 750px !important;
-  height: 630px !important;
-  position: relative !important;
+
+.controller.xbox.edit{
+  position:relative !important;
+  width:750px !important;
+  height:630px !important;
+  overflow:visible !important;
+  filter:contrast(1.08) brightness(.88);
 }
 
-/* RAGE X artwork layer. Native Xbox base stays underneath, so geometry cannot drift. */
-.controller.xbox.edit::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  width: 750px;
-  height: 630px;
-  background: url("https://penay4321-cloud.github.io/ragex-gamepad/ragex-overlay.png") center/750px 630px no-repeat;
-  pointer-events: none;
-  z-index: 1;
+/* Red/white JDM graphics laid over the ORIGINAL Xbox shell */
+.controller.xbox.edit::before{
+  content:"";
+  position:absolute;
+  z-index:2;
+  left:18px;
+  top:118px;
+  width:714px;
+  height:500px;
+  pointer-events:none;
+  opacity:.82;
+  background:
+    linear-gradient(128deg,
+      transparent 0 17%,
+      rgba(255,255,255,.82) 17.4% 18.2%,
+      transparent 18.6% 24%,
+      rgba(225,0,0,.92) 24.4% 27%,
+      transparent 27.5% 48%,
+      rgba(255,255,255,.62) 48.4% 49.2%,
+      transparent 49.7% 61%,
+      rgba(225,0,0,.9) 61.4% 64%,
+      transparent 64.5%),
+    repeating-linear-gradient(45deg,
+      rgba(255,255,255,.035) 0 2px,
+      transparent 2px 7px);
+  clip-path:polygon(7% 10%,22% 1%,36% 8%,43% 17%,57% 17%,64% 8%,78% 1%,93% 10%,98% 31%,100% 67%,96% 88%,89% 100%,81% 98%,70% 76%,61% 67%,39% 67%,30% 76%,19% 98%,11% 100%,4% 88%,0 67%,2% 31%);
 }
 
-/* Native live controls always above the artwork. */
+/* Center branding, independent of controller controls */
+.controller.xbox.edit::after{
+  content:"RAGE X";
+  position:absolute;
+  z-index:3;
+  left:50%;
+  top:195px;
+  transform:translateX(-50%) skew(-10deg);
+  pointer-events:none;
+  white-space:nowrap;
+  font:900 italic 39px/1 "Arial Black",Impact,sans-serif;
+  letter-spacing:-4px;
+  color:#f4f4f4;
+  text-shadow:
+    0 2px 2px #000,
+    0 0 5px #fff,
+    0 0 11px rgba(255,20,20,.85);
+  animation:ragexPulse 2.1s ease-in-out infinite;
+}
+@keyframes ragexPulse{
+  0%,100%{filter:brightness(.88);text-shadow:0 2px 2px #000,0 0 4px #fff,0 0 9px rgba(255,0,0,.65)}
+  50%{filter:brightness(1.25);text-shadow:0 2px 2px #000,0 0 7px #fff,0 0 17px #f22,0 0 30px rgba(255,0,0,.8)}
+}
+
+/* Keep ALL stock GPV controls above the decoration.
+   We DO NOT reposition anything. */
 .xbox.edit .triggers,
 .xbox.edit .bumpers,
 .xbox.edit .quadrant,
 .xbox.edit .arrows,
 .xbox.edit .abxy,
 .xbox.edit .sticks,
-.xbox.edit .dpad {
-  position: absolute;
-  z-index: 20 !important;
+.xbox.edit .dpad{
+  z-index:20 !important;
 }
 
-/* Exact native Xbox One coordinates from GamePad Viewer. */
-.xbox.edit .triggers { width:446px!important; height:121px!important; left:152px!important; top:0!important; }
-.xbox.edit .bumpers { width:536px!important; height:61px!important; left:107px!important; top:129px!important; }
-.xbox.edit .quadrant { width:45px!important; height:45px!important; left:354px!important; top:258px!important; }
-.xbox.edit .arrows { width:141px!important; height:33px!important; left:306px!important; top:264px!important; }
-.xbox.edit .abxy { width:153px!important; height:156px!important; left:488px!important; top:192px!important; }
-.xbox.edit .sticks { width:371px!important; height:196px!important; left:144px!important; top:239px!important; }
-.xbox.edit .dpad { width:110px!important; height:111px!important; left:223px!important; top:345px!important; }
+/* Dark ABXY */
+.xbox.edit .button{
+  filter:grayscale(1) brightness(.58) contrast(1.35);
+  transition:filter .08s ease;
+}
+.xbox.edit .button.pressed{
+  filter:grayscale(1) brightness(1.55) sepia(1) saturate(8) hue-rotate(320deg)
+         drop-shadow(0 0 8px rgba(255,25,25,.95));
+}
 
-/* Dark RAGE X control treatment */
-.xbox.edit .button {
-  filter: grayscale(1) brightness(.48) contrast(1.45);
-  transition: filter .08s ease;
-}
-.xbox.edit .button.pressed {
-  filter: grayscale(1) brightness(1.55) sepia(1) saturate(7) hue-rotate(320deg)
-          drop-shadow(0 0 8px rgba(255,30,30,.95));
-}
-.xbox.edit .stick {
-  filter: grayscale(1) brightness(.72) contrast(1.35)
-          drop-shadow(0 0 4px rgba(255,0,0,.8));
+/* Sticks / pressed controls */
+.xbox.edit .stick{
+  filter:grayscale(1) brightness(.72) contrast(1.25)
+         drop-shadow(0 0 3px rgba(220,0,0,.65));
 }
 .xbox.edit .stick.pressed,
 .xbox.edit .face.pressed,
 .xbox.edit .bumper.pressed,
 .xbox.edit .trigger.pressed,
 .xbox.edit .back.pressed,
-.xbox.edit .start.pressed {
-  filter: brightness(1.5) drop-shadow(0 0 9px rgba(255,30,30,.95));
-}
-
-/* Animated RAGE X glow */
-.controller.xbox.edit::after {
-  content: "RAGE X";
-  position: absolute;
-  z-index: 30;
-  left: 50%;
-  top: 174px;
-  transform: translateX(-50%) skew(-8deg);
-  pointer-events: none;
-  white-space: nowrap;
-  font: 900 italic 38px/1 Arial Black, Impact, sans-serif;
-  letter-spacing: -3px;
-  color: #eee;
-  animation: ragexGlow 2.4s ease-in-out infinite;
-}
-@keyframes ragexGlow {
-  0%,100% { text-shadow:0 0 6px #fff,0 0 12px rgba(255,0,0,.55); }
-  50% { color:#fff; text-shadow:0 0 5px #fff,0 0 16px #ff2a2a,0 0 32px #f00; }
+.xbox.edit .start.pressed{
+  filter:brightness(1.45) drop-shadow(0 0 9px rgba(255,25,25,.95));
 }
